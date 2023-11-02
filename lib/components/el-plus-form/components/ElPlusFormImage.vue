@@ -1,7 +1,7 @@
 <template>
   <div class="ele-form-image">
     <template v-if="imagLIst && imagLIst.length > 0">
-      <el-image v-for="(image, i) in imagLIst" :class="desc.class" :key="image" :preview-src-list="attrs.isShowPreview === false ? null : imagLIst" :initial-index="i" :src="format.imgUrl(image)" v-bind="attrs" :style="styles" v-on="onEvents" :fit="attrs.fit || 'cover'" />
+      <el-image v-for="(image, i) in imagLIst" :class="desc.class" :key="image" :preview-src-list="attrs.isShowPreview === false ? null : imagLIst" :initial-index="i" :src="imgUrl(image)" v-bind="attrs" :style="styles" v-on="onEvents" :fit="attrs.fit || 'cover'" />
     </template>
     <div v-else>
       <span class="no-img-tip">—</span>
@@ -19,9 +19,7 @@ export default {
 <script lang="ts" setup>
 import { ref, computed, useAttrs, onBeforeMount, inject } from 'vue'
 import { getAttrs, getEvents } from '../mixins'
-
-// 格式化
-const format = inject('format') as any
+import { imgUrl } from '../util'
 
 const props = defineProps<{
   modelValue?: Array<any> | string | null
@@ -49,7 +47,7 @@ const imagLIst = computed(() => {
       return props.modelValue.map((item) => item.shareUrl || item.furl)
     }
   } else if (typeof props.modelValue === 'string') {
-    return props.modelValue.split(',').map((url) => format.imgUrl(url))
+    return props.modelValue.split(',').map((url) => imgUrl(url))
   } else {
     // console.log('unknown image Type.....')
   }

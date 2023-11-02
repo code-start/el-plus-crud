@@ -385,3 +385,18 @@ export function getFnValue<T>(val: any | Function, param?: any) {
   }
   return val
 }
+
+/**
+ * 格式化图片路径
+ * @param val
+ * @returns {*}
+ */
+export const imgUrl = (val: any) => {
+  if (val && val.length > 0) {
+    if (val.indexOf('http://') >= 0 || val.indexOf('https://') >= 0 || val.startsWith('/static') || val.startsWith('data:image/')) {
+      return val
+    }
+    return '' + val
+  }
+  return ''
+}
